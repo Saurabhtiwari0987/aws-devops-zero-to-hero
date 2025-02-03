@@ -16,7 +16,7 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install -r day-14/simple-python-app/requirements.txt
-      - echo login -u $DOCKER_USERNAME -p  $DOCKER_REGISTRY_PASSWORD
+      - docker login -u $DOCKER_USERNAME -p  $DOCKER_REGISTRY_PASSWORD
   build:
     commands:
       - echo "Running tests..."
