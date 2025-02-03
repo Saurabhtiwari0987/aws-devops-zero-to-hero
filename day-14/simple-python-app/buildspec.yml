@@ -1,13 +1,10 @@
 version: 0.2
 
 env:
-  variables:
-    DOCKER_USERNAME: "saurabhtiwari09876"
-    IMAGE_NAME: "SUNNY"
-    IMAGE_TAG: "V1"
   parameter-store:
-    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
-    
+    DOCKER_REGISTRY_USERNAME: "saurabhtiwari09876"
+    DOCKER_REGISTRY_PASSWORD: Docker-passowrd
+    DOCKER_REGISTRY_URL: /myapp
 phases:
   install:
     runtime-versions:
@@ -15,23 +12,20 @@ phases:
   pre_build:
     commands:
       - echo "Installing dependencies..."
-      - pip install -r day-14/simple-python-app/requirements.txt
-      - docker login -u $DOCKER_USERNAME -p  $DOCKER_REGISTRY_PASSWORD
+      - pip install -r day-13/simple-python-app/requirements.txt
   build:
     commands:
       - echo "Running tests..."
-      - cd day-14/simple-python-app/
-      - echo Build started on 'date'
+      - cd day-13/simple-python-app/
       - echo "Building Docker image..."
-      #- echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t $IMAGE_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
+     # - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - docker login -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest"
   post_build:
     commands:
       - echo "Build completed successfully!"
-      - docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG
-#artifacts:
-  #files:
-  #  - '**/*'
- # base-directory: ../simple-python-app
-
+artifacts:
+  files:
+    - '**/*'
+  base-directory: ../simple-python-app
