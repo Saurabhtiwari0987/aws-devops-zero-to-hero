@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   parameter-store:
-    DOCKER_REGISTRY_USERNAME: "saurabhtiwari09876"
+    DOCKER_REGISTRY_USERNAME: Dockerusername
     DOCKER_REGISTRY_PASSWORD: Docker-passowrd
     DOCKER_REGISTRY_URL: myapp
 phases:
